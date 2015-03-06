@@ -64,9 +64,9 @@ def Penalizar(funcion_evaluada,peso_maximo):
         pena=0
         if int(i[-2])>a:
             #Esta inclumpliendo el peso accion: Penalizar
-            pena=i[-2] + 1000
+            pena=i[-1] - 1000
         else:
-            pena = i [-2]
+            pena = i [-1]
         i.append(pena)
     return funcion_evaluada
 
@@ -77,10 +77,14 @@ def SumatoriaFX(lista):
     return suma
 
 def Probabilidad(funciones_penalizadas,suma):
+    #for x in funciones_penalizadas:
+        #resta=float(sum)-float(x[4])
+      #  p=(float(x[-1])/(float(suma)))*100
+     #   x.append(int(p))
     for x in funciones_penalizadas:
         resta=float(suma)-float(x[-1])
         p=(resta*100)/float(str(suma))
-        x.append(int(p))
+        x.append(float(p))
     return funciones_penalizadas
 
 def Ruleta(lista):
@@ -96,14 +100,21 @@ def Ruleta(lista):
     return new
 
 def SeleccionParejas(opciones,num_cro):
-    count =0
+    count =1
     tabla_hijos=[]
-    while count!=num_cro:
-        n=random.randrange(0,100)
+    while count<=int(num_cro):
+        n=random.uniform(0,100)
         for x in opciones:
-            if int(x[13]) <= n:
+            if  n <= (x[13]):
                 tabla_hijos.append(x)
                 count=count+1
+                break
             else:
                 pass
     return opciones,tabla_hijos
+
+def SelectBest(hijos,best):
+    hijos.sort(key=(lambda x:x[-3]))
+    if hijos[-3]>best[-3]:
+        best=hijos[-1]
+    return best
